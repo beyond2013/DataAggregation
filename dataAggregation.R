@@ -10,6 +10,9 @@ inputData <- read.csv(file="data/ACCESS1_day_RCP4.5_2006_2099.csv",
 # change data from wide to long format
 molten_1 <- melt(inputData, id.vars = "Date",
                              variable_name = "stations")
+#change the column name from "value" to "pr" for precipitation data
+colnames(molten_1)[3] <- "pr"
+
 
 # load data from  file
 inputData <- read.csv(file="data/tasmax_day_RCP45_2006_2099.csv",
@@ -18,6 +21,10 @@ inputData <- read.csv(file="data/tasmax_day_RCP45_2006_2099.csv",
 molten_2 <- melt(inputData, id.vars = "Date",
                              variable_name = "stations")
 
+#change the column name from "value" to "tmax" for precipitation data
+colnames(molten_2)[3] <- "tmax"
+#conver tmax from Celsius to Kelvin
+molten_2$tmax <- molten_2$tmax + 273.15
 
 # load data from  file
 inputData <- read.csv(file="data/tasmin_day_RCP45_2006_2099.csv",
@@ -26,8 +33,10 @@ inputData <- read.csv(file="data/tasmin_day_RCP45_2006_2099.csv",
 molten_3 <- melt(inputData, id.vars = "Date",
                              variable_name = "stations")
 
-
-dataAggr <- cbind(molten_1, molten_2$value, molten_3$value)
+#change the column name from "value" to "tmin" for precipitation data
+colnames(molten_3)[3] <- "tmin"
+molten_3$tmin <- molten_3$tmin + 273.15
+dataAggr <- cbind(molten_1, molten_2$tmax, molten_3$tmin)
 
 save(dataAggr, file = "dataAggr")
 
