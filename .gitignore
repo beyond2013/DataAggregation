@@ -2,3 +2,5 @@ molten_*
 dataAggr
 finalResult
 data/*
+output/*
+.Rproj.user
